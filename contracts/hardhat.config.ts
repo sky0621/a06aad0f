@@ -8,7 +8,7 @@ const INFURA_API_KEY = process.env.INFURA_API_KEY ?? ""
 const OWNER_PRIVATE_KEY = process.env.OWNER_PRIVATE_KEY ?? ""
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.19",
+  solidity: "0.8.20",
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY ?? ""
   },
@@ -17,7 +17,7 @@ const config: HardhatUserConfig = {
       url: `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,
       accounts: [OWNER_PRIVATE_KEY]
     }
-  }
+  },
 };
 
 export default config;
