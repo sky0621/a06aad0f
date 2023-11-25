@@ -22,5 +22,20 @@ describe("FamilyTreeToken", function (){
             const {familyTreeToken} = await loadFixture(deployFixture)
             expect(await familyTreeToken.symbol()).to.equal("FTT")
         });
+
+        it('should ', async () => {
+            const {familyTreeToken,owner} = await loadFixture(deployFixture)
+            expect(await familyTreeToken.balanceOf(owner)).to.equal(0)
+        });
+
+        // it('should ', async () => {
+        //     const {familyTreeToken,owner} = await loadFixture(deployFixture)
+        //     expect(await familyTreeToken.ownerOf(1)).to.equal(owner.address)
+        // });
+
+        // it('should ', async () => {
+        //     const {familyTreeToken,owner} = await loadFixture(deployFixture)
+        //     expect(await familyTreeToken.tokenURI(1)).to.equal("x")
+        // });
     })
 })
