@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "compile": "npx hardhat compile",
+    "test": "npx hardhat test",
+    "test:parallel": "npx hardhat test --parallel",
+    "coverage": "npx hardhat coverage",
+    "deploy": "npx hardhat run scripts/deploy.ts",
+    "deploy:local": "npx hardhat run --network localhost scripts/deploy.ts",
+    "deploy:sepolia": "npx hardhat run scripts/deploy.ts --network sepolia",
+    "node": "npx hardhat node",
+    "accounts": "npx hardhat accounts"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat": "^2.19.1"
+  }
+}
