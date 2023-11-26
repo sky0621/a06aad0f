@@ -9,7 +9,7 @@ npx hardhat help
 npx hardhat test
 REPORT_GAS=true npx hardhat test
 npx hardhat node
-npx hardhat run scripts/deploy.ts
+npx hardhat run scripts/deployFamilyTreeToken.ts
 ```
 
 0x015e2cA63C46952aE967025aDbE477F060EE6076

@@ -4,9 +4,9 @@
     "test": "npx hardhat test --typecheck",
     "test:parallel": "npx hardhat test --typecheck --parallel",
     "coverage": "npx hardhat coverage",
-    "deploy": "npx hardhat run scripts/deploy.ts",
-    "deploy:local": "npx hardhat run --network localhost scripts/deploy.ts",
-    "deploy:sepolia": "npx hardhat run scripts/deploy.ts --network sepolia",
+    "deploy:FamilyTreeToken": "npx hardhat run scripts/deployFamilyTreeToken.ts",
+    "deploy:local": "npx hardhat run --network localhost scripts/deployFamilyTreeToken.ts",
+    "deploy:sepolia": "npx hardhat run scripts/deployFamilyTreeToken.ts --network sepolia",
     "node": "npx hardhat node",
     "accounts": "npx hardhat accounts",
     "console": "npx hardhat console"
