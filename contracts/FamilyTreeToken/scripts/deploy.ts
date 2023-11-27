@@ -1,9 +1,18 @@
 import { ethers } from "hardhat";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+const OWNER_ADDRESS = process.env.OWNER_ADDRESS ?? "";
 
 async function main() {
-  const ftt= await ethers.deployContract("FamilyTreeToken");
+  const ftt = await ethers.deployContract("FamilyTreeToken", [
+    OWNER_ADDRESS,
+    OWNER_ADDRESS,
+  ]);
   await ftt.waitForDeployment();
-  console.info(ftt.target)
+
+  console.log(`deployed to ${ftt.target}`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
