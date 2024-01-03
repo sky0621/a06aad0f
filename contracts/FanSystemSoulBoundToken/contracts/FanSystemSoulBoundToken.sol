@@ -14,9 +14,18 @@ contract FanSystemSoulBoundToken is
 {
     uint256 private _nextTokenId;
 
+    bool private isLocked = true;
+
     constructor(
         address initialOwner
     ) ERC721("FanSystemSoulBoundToken", "FSSBT") Ownable(initialOwner) {}
+
+    error ErrLocked();
+
+    modifier checkLocked() {
+        if (isLocked) revert ErrLocked();
+        _;
+    }
 
     function pause() public onlyOwner {
         _pause();
@@ -39,5 +48,33 @@ contract FanSystemSoulBoundToken is
         address auth
     ) internal override(ERC721, ERC721Pausable) returns (address) {
         return super._update(to, tokenId, auth);
+    }
+
+    function transferFrom(
+        address from,
+        address to,
+        uint256 tokenId
+    ) public override checkLocked {
+        super.transferFrom(from, to, tokenId);
+    }
+
+    function safeTransferFrom(
+        address from,
+        address to,
+        uint256 tokenId,
+        bytes memory data
+    ) public override checkLocked {
+        super.safeTransferFrom(from, to, tokenId, data);
+    }
+
+    function approve(address to, uint256 tokenId) public override checkLocked {
+        super.approve(to, tokenId);
+    }
+
+    function setApprovalForAll(
+        address operator,
+        bool approved
+    ) public override checkLocked {
+        super.setApprovalForAll(operator, approved);
     }
 }
