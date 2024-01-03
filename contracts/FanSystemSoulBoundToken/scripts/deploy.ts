@@ -6,8 +6,7 @@ dotenv.config();
 const OWNER_ADDRESS = process.env.OWNER_ADDRESS ?? "";
 
 async function main() {
-  const ftt = await ethers.deployContract("FamilyTreeToken", [
-    OWNER_ADDRESS,
+  const ftt = await ethers.deployContract("FanSystemSoulBoundToken", [
     OWNER_ADDRESS,
   ]);
   await ftt.waitForDeployment();
