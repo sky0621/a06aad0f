@@ -29,9 +29,13 @@ describe("FanSystemSoulBoundToken", function () {
   // safeMint(address to)
   describe("Mint", function () {
     it("Owner can mint.", async function () {
-      const { sbt, owner, otherAccount } = await loadFixture(deployFixture);
+      const { sbt, owner, otherAccount, otherAccount2 } =
+        await loadFixture(deployFixture);
       await sbt.safeMint(otherAccount);
+      expect(await sbt.balanceOf(owner)).to.equal(0);
       expect(await sbt.balanceOf(otherAccount)).to.equal(1);
+      expect(await sbt.balanceOf(otherAccount2)).to.equal(0);
+      expect(await sbt.ownerOf(0)).to.equal(otherAccount.address);
     });
 
     it("Not owner can not mint.", async function () {
@@ -103,6 +107,33 @@ describe("FanSystemSoulBoundToken", function () {
   });
 
   // burn(uint256 tokenId)
+  describe("Burn", function () {
+    it("Owner can burn their own token.", async function () {
+      const { sbt, owner, otherAccount } = await loadFixture(deployFixture);
+      await sbt.safeMint(owner);
+      expect(await sbt.balanceOf(owner)).to.equal(1);
+      await sbt.burn(0);
+      expect(await sbt.balanceOf(owner)).to.equal(0);
+    });
+
+    it("Not owner can burn their own token.", async function () {
+      const { sbt, owner, otherAccount } = await loadFixture(deployFixture);
+      await sbt.safeMint(otherAccount);
+      expect(await sbt.balanceOf(otherAccount)).to.equal(1);
+      await sbt.connect(otherAccount).burn(0);
+      expect(await sbt.balanceOf(otherAccount)).to.equal(0);
+    });
+
+    it("Owner can burn other's token.", async function () {
+      const { sbt, owner, otherAccount } = await loadFixture(deployFixture);
+      await sbt.safeMint(otherAccount);
+      expect(await sbt.balanceOf(otherAccount)).to.equal(1);
+      await expect(sbt.burn(0)).revertedWithCustomError(
+        sbt,
+        "ERC721InsufficientApproval",
+      );
+    });
+  });
 
   // pause()
   // unpause()
