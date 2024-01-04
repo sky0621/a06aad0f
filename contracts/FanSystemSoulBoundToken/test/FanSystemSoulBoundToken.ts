@@ -109,7 +109,7 @@ describe("FanSystemSoulBoundToken", function () {
   // burn(uint256 tokenId)
   describe("Burn", function () {
     it("Owner can burn their own token.", async function () {
-      const { sbt, owner, otherAccount } = await loadFixture(deployFixture);
+      const { sbt, owner } = await loadFixture(deployFixture);
       await sbt.safeMint(owner);
       expect(await sbt.balanceOf(owner)).to.equal(1);
       await sbt.burn(0);
@@ -124,7 +124,7 @@ describe("FanSystemSoulBoundToken", function () {
       expect(await sbt.balanceOf(otherAccount)).to.equal(0);
     });
 
-    it("Owner can burn other's token.", async function () {
+    it("Owner can not burn other's token.", async function () {
       const { sbt, owner, otherAccount } = await loadFixture(deployFixture);
       await sbt.safeMint(otherAccount);
       expect(await sbt.balanceOf(otherAccount)).to.equal(1);
@@ -137,4 +137,34 @@ describe("FanSystemSoulBoundToken", function () {
 
   // pause()
   // unpause()
+  describe("Pause", function () {
+    it("Owner can pause.", async function () {
+      const { sbt, owner, otherAccount } = await loadFixture(deployFixture);
+      await sbt.safeMint(owner);
+      await sbt.pause()
+      await expect(sbt.safeMint(owner)).revertedWithCustomError(
+          sbt,
+          "EnforcedPause",
+      );
+      await expect(sbt.burn(0)).revertedWithCustomError(
+          sbt,
+          "EnforcedPause",
+      );
+      await sbt.unpause()
+      await sbt.safeMint(owner);
+      await sbt.burn(1)
+    });
+
+    it("Not owner can not pause.", async function () {
+      const { sbt, otherAccount } = await loadFixture(deployFixture);
+      await expect(sbt.connect(otherAccount).pause()).revertedWithCustomError(
+          sbt,
+          "OwnableUnauthorizedAccount",
+      );
+      await expect(sbt.connect(otherAccount).unpause()).revertedWithCustomError(
+          sbt,
+          "OwnableUnauthorizedAccount",
+      );
+    });
+  });
 });
